@@ -2,7 +2,7 @@ module SQLite3
   class Statement
     def initialize(db, sql, params)
       @db = db
-      @handle = Pointer.new(Sqlite3_stmt.type)
+      @handle = Pointer.new(::Sqlite3_stmt.type)
       @result = nil
 
       prepare(sql)
@@ -26,7 +26,7 @@ module SQLite3
     def step
       @result = sqlite3_step(@handle.value)
       unless @result == SQLITE_DONE || @result == SQLITE_ROW
-        raise DatabaseError.from_last_error(@db)
+        raise SQLite3Error, sqlite3_errmsg(@db.value)
       end
     end
 
@@ -53,10 +53,10 @@ module SQLite3
       when Float
         result = sqlite3_bind_double(@handle.value, index, value)
       else
-        raise DatabaseError, "unable to bind #{value} to #{name}: unexpected type #{value.class}"
+        raise SQLite3Error, "unable to bind #{value} to #{name}: unexpected type #{value.class}"
       end
 
-      raise DatabaseError, "unable to bind #{value} to #{name}" if result != SQLITE_OK
+      raise SQLite3Error, sqlite3_errmsg(@db.value) if result != SQLITE_OK
     end
 
     def column_index(name)
@@ -65,7 +65,8 @@ module SQLite3
       case name
       when String, Symbol
         index = sqlite3_bind_parameter_index(@handle.value, ":#{name}")
-        raise DatabaseError, "couldn't find index for #{name}!" if index == 0
+        raise SQLite3Error, "couldn't find index for #{name}!" if index == 0
+
       when Integer
         index = name
       end
@@ -76,7 +77,7 @@ module SQLite3
     def prepare(sql)
       remainder = Pointer.new(:string)
       result = sqlite3_prepare_v2(@db.value, sql, -1, @handle, remainder)
-      raise DatabaseError.from_last_error(@db) if result != SQLITE_OK
+      raise SQLite3Error, sqlite3_errmsg(@db.value) if result != SQLITE_OK
     end
   end
 end

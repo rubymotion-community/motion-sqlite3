@@ -51,7 +51,7 @@ module SQLite3
 
       row
     end
-
-  class ColumnMetadata < Struct.new(:index, :type)
   end
+
+  class ColumnMetadata < Struct.new(:index, :type); end
 end

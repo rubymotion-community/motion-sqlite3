@@ -8,8 +8,8 @@ describe SQLite3::Database do
       lambda { @db.execute(nil) }.should.raise(ArgumentError)
     end
 
-    it "raises a DatabaseError when passed invalid SQL" do
-      lambda { @db.execute("sadf") }.should.raise(SQLite3::DatabaseError)
+    it "raises a SQLite3Error when passed invalid SQL" do
+      lambda { @db.execute("sadf") }.should.raise(SQLite3::SQLite3Error)
     end
 
     it "allows parameters to be passed in as an Array" do
@@ -50,45 +50,6 @@ describe SQLite3::Database do
       @db.execute("INSERT INTO test (name, age) VALUES (?, ?)", ["sparky", 24])
 
       @db.execute_scalar("SELECT COUNT(*) FROM test WHERE age > ?", [20]).should == 2
-    end
-  end
-
-  describe "#sqlite_version" do
-    it "returns the version of SQLite in use" do
-      @db.sqlite_version.should.not.be.nil
-    end
-  end
-
-  describe "#transaction" do
-    before do
-      @db.execute("CREATE TABLE test (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, age INTEGER)")
-    end
-
-    it "commits transactions when the block succeeds" do
-      @db.transaction do
-        @db.execute("INSERT INTO test (name, age) VALUES (?, ?)", ["herbert", 44])
-      end
-
-      @db.execute("SELECT * FROM test WHERE name = :name", { name: "herbert" }) do |row|
-        row.should == { id: 1, name: "herbert", age: 44 }
-      end
-    end
-
-    it "rolls back transactions if an exception is thrown" do
-      begin
-        @db.transaction do
-          @db.execute("INSERT INTO test (name, age) VALUES (?, ?)", ["herbert", 44])
-          raise RuntimeError
-        end
-      rescue RuntimeError
-      end
-
-      called = false
-      @db.execute("SELECT * FROM test WHERE name = :name", { name: "herbert" }) do |row|
-        called = true
-      end
-
-      called.should.be.false
     end
   end
 end

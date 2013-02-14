@@ -1,14 +1,17 @@
 module SQLite3
   class Database
     def initialize(filename)
-      @handle = Pointer.new(Sqlite3.type)
+      @handle = Pointer.new(::Sqlite3.type)
 
       result = sqlite3_open(filename, @handle)
-      raise DatabaseError.from_last_error(@handle) if result != SQLITE_OK
+      raise SQLite3Error, sqlite3_errmsg(@handle.value) if result != SQLITE_OK
     end
 
     def execute(sql, params = nil, &block)
       raise ArgumentError if sql.nil?
+
+      puts "*** #{sql}"
+      puts "    #{params.inspect}" if params
 
       prepare(sql, params) do |statement|
         results = statement.execute
@@ -29,23 +32,6 @@ module SQLite3
       end
 
       result[:value]
-    end
-
-    def transaction(&block)
-      execute("BEGIN TRANSACTION")
-
-      begin
-        yield
-      rescue
-        execute("ROLLBACK TRANSACTION")
-        raise
-      else
-        execute("COMMIT TRANSACTION")
-      end
-    end
-
-    def sqlite_version
-      sqlite3_libversion
     end
 
     private
