@@ -4,9 +4,9 @@ require File.expand_path('../lib/motion-sqlite3/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["Matt Green"]
   gem.email         = ["mattgreenrocks@gmail.com"]
-  gem.description   = ""
-  gem.summary       = ""
-  gem.homepage      = ""
+  gem.description   = "A minimal wrapper over the SQLite 3 C API for RubyMotion"
+  gem.summary       = "A minimal wrapper over the SQLite 3 C API for RubyMotion"
+  gem.homepage      = "http://github.com/mattgreen/motion-sqlite3"
 
   gem.files         = `git ls-files`.split($\)
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
