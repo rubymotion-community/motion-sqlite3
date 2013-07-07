@@ -21,21 +21,11 @@ module SQLite3
       end
     end
 
-    def execute_debug(sql, params = nil, &block)
-      raise ArgumentError if sql.nil?
+    def execute_debug(*args, &block)
+      puts "*** #{args[0]}"
+      puts "    #{args[1].inspect}" if args[1]
 
-      puts "*** #{sql}"
-      puts "    #{params.inspect}" if params
-
-      prepare(sql, params) do |statement|
-        results = statement.execute
-
-        if block_given?
-          results.each do |result|
-            yield result
-          end
-        end
-      end
+      execute(*args, &block)
     end
 
     def execute_scalar(*args)
