@@ -10,6 +10,20 @@ module SQLite3
     def execute(sql, params = nil, &block)
       raise ArgumentError if sql.nil?
 
+      prepare(sql, params) do |statement|
+        results = statement.execute
+
+        if block_given?
+          results.each do |result|
+            yield result
+          end
+        end
+      end
+    end
+
+    def execute_debug(sql, params = nil, &block)
+      raise ArgumentError if sql.nil?
+
       puts "*** #{sql}"
       puts "    #{params.inspect}" if params
 
