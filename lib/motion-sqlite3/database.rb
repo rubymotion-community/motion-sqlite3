@@ -10,8 +10,8 @@ module SQLite3
     def execute(sql, params = nil, &block)
       raise ArgumentError if sql.nil?
 
-      puts "*** #{sql}"
-      puts "    #{params.inspect}" if params
+      #puts "*** #{sql}"
+      #puts "    #{params.inspect}" if params
 
       prepare(sql, params) do |statement|
         results = statement.execute
@@ -35,6 +35,7 @@ module SQLite3
     end
 
     private
+
     def prepare(sql, params, &block)
       statement = Statement.new(@handle, sql, params)
 
