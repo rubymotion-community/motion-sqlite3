@@ -5,7 +5,6 @@ app/pixate_code.rb
 resources/*.nib
 resources/*.momd
 resources/*.storyboardc
-vendor/sqlite3/build-*
 .DS_Store
 nbproject
 .redcar
@@ -15,3 +14,4 @@ nbproject
 .eprj
 .sass-cache
 .idea
+Gemfile.lock
