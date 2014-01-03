@@ -16,5 +16,5 @@ Gem::Specification.new do |gem|
   gem.version       = SQLite3::VERSION
 
   gem.add_development_dependency 'rake', '~> 0.9.0'
-  gem.add_dependency 'motion.h'
+  gem.add_dependency 'motion.h', '~> 0.0.3'
 end

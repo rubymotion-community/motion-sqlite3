@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     motion-sqlite3 (0.3.1)
-      motion.h
+      motion.h (~> 0.0.3)
 
 GEM
   remote: https://rubygems.org/

@@ -47,10 +47,6 @@ Usage
 * Use `execute_debug` to see the SQL statement and paramaters passed in the REPL. You should not use this method in production.
 * Use `execute_scalar` to run SQL statements and return the first column of the first row. This is useful for queries like `SELECT COUNT(*) FROM posts`.
 
-Caveats
--------
-* The way it links with libsqlite3.dylib is hacky: a blank .m file in the vendor folder. Will need to fix this.
-
 Status
 ----------
 Still in early stages. I'm hacking on it.

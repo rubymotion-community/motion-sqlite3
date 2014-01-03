@@ -1,4 +1,5 @@
 require 'motion-sqlite3/version'
+require 'motion.h'
 
 unless defined?(Motion::Project::Config)
   raise "This file must be required within a RubyMotion project Rakefile."
