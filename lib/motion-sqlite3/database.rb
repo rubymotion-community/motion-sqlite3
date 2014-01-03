@@ -20,31 +20,36 @@ module SQLite3
           results.each do |result|
             yield result
           end
+        else
+          rows = []
+
+          results.each do |result|
+            rows << result
+          end
+
+          rows
         end
       end
     end
 
     def execute_scalar(*args)
-      result = {}
-
-      execute(*args) do |row|
-        result[:value] ||= row.values.first
-      end
-
-      result[:value]
+      execute(*args).first.values.first
     end
 
     private
 
     def prepare(sql, params, &block)
       statement = Statement.new(@handle, sql, params)
+      result = nil
 
       begin
-        yield statement
+        result = yield statement
 
       ensure
         statement.finalize
       end
+
+      result
     end
   end
 end

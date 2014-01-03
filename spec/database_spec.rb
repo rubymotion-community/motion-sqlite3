@@ -26,6 +26,17 @@ describe SQLite3::Database do
       @db.execute_scalar("SELECT changes()").should == 1
     end    
 
+    it "returns rows if no block is provided" do
+      @db.execute("CREATE TABLE test (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, age INTEGER)")
+      @db.execute("INSERT INTO test (name, age) VALUES (?, ?)", ["brad", 28])
+      @db.execute("INSERT INTO test (name, age) VALUES (?, ?)", ["sparky", 24])
+
+      @db.execute("SELECT * FROM test").should == [
+        { id: 1, name: "brad", age: 28 },
+        { id: 2, name: "sparky", age: 24 }
+      ]
+    end
+
     it "yields rows to the block" do
       @db.execute("CREATE TABLE test (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, age INTEGER)")
       @db.execute("INSERT INTO test (name, age) VALUES (?, ?)", ["brad", 28])
