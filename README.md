@@ -4,6 +4,8 @@ This is a tiny wrapper around the SQLite C API that's written in RubyMotion. It 
 
 Whenever possible, it uses Ruby idioms like blocks and exceptions.
 
+[![Code Climate](https://codeclimate.com/github/mattgreen/motion-sqlite3.png)](https://codeclimate.com/github/mattgreen/motion-sqlite3) [![Gem Version](https://badge.fury.io/rb/motion-sqlite3.png)](http://badge.fury.io/rb/motion-sqlite3)
+
 Is it any good?
 ---------------
 Yes.
