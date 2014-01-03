@@ -17,5 +17,5 @@ Motion::Project::App.setup do |app|
   end
 
   app.libs << "/usr/lib/libsqlite3.dylib"
-  app.vendor_project('vendor/sqlite3', :static, :products => [])
+  app.include 'sqlite3.h'
 end
