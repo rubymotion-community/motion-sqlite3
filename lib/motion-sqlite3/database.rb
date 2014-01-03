@@ -32,6 +32,13 @@ module SQLite3
       end
     end
 
+    def execute_debug(*args, &block)
+      puts "*** #{args[0]}"
+      puts "    #{args[1].inspect}" if args[1]
+
+      execute(*args, &block)
+    end
+
     def execute_scalar(*args)
       execute(*args).first.values.first
     end
