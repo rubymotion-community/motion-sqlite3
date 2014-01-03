@@ -31,6 +31,7 @@ module SQLite3
     end
 
     private
+
     def bind(params)
       case params
       when Hash
@@ -52,6 +53,8 @@ module SQLite3
         result = sqlite3_bind_int(@handle.value, index, value)
       when Float
         result = sqlite3_bind_double(@handle.value, index, value)
+      when NSData
+        result = sqlite3_bind_blob(@handle.value, index, value.bytes, value.length, lambda { |arg| })
       else
         raise SQLite3Error, "unable to bind #{value} to #{name}: unexpected type #{value.class}"
       end

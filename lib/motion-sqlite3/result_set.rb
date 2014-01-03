@@ -41,7 +41,7 @@ module SQLite3
         when SQLITE_TEXT
           row[name] = sqlite3_column_text(@handle.value, metadata.index)
         when SQLITE_BLOB
-          row[name] = sqlite3_column_blob(@handle.value, metadata.index)
+          row[name] = NSData.dataWithBytes(sqlite3_column_blob(@handle.value, metadata.index), length: sqlite3_column_bytes(@handle.value, metadata.index))
         when SQLITE_INTEGER
           row[name] = sqlite3_column_int(@handle.value, metadata.index)
         when SQLITE_FLOAT
