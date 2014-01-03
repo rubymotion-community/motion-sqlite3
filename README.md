@@ -4,6 +4,10 @@ This is a tiny wrapper around the SQLite C API that's written in RubyMotion. It 
 
 Whenever possible, it uses Ruby idioms like blocks and exceptions.
 
+Is it any good?
+---------------
+Yes.
+
 Sample code
 -----------
 
