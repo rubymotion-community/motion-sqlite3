@@ -6,6 +6,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["mattgreenrocks@gmail.com"]
   gem.description   = "A minimal wrapper over the SQLite 3 C API for RubyMotion"
   gem.summary       = "A minimal wrapper over the SQLite 3 C API for RubyMotion"
+  gem.license       = "MIT"
   gem.homepage      = "http://github.com/mattgreen/motion-sqlite3"
 
   gem.files         = `git ls-files`.split($\)
@@ -14,7 +15,5 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = SQLite3::VERSION
 
-  gem.add_development_dependency 'rake', '>= 0.9.0'
-  gem.add_development_dependency 'guard-motion', '~> 0.1.1'
-  gem.add_development_dependency 'rb-fsevent', '~> 0.9.1'
+  gem.add_development_dependency 'rake', '~> 0.9.0'
 end
