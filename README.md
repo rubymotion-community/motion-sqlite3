@@ -32,8 +32,8 @@ Usage
 
 Caveats
 -------
-* The way it links with libsqlite3.dylib is hacky: a blank .m file in the vendor. This makes it tough to depend on it from your own gem.
+* The way it links with libsqlite3.dylib is hacky: a blank .m file in the vendor folder. Will need to fix this.
 
 Status
 ----------
-I don't use this code personally, so I'm not supporting it. Consider it a base for your own libraries.
+Still in early stages. I'm hacking on it.
