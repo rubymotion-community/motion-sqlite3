@@ -63,4 +63,37 @@ describe SQLite3::Database do
       @db.execute_scalar("SELECT COUNT(*) FROM test WHERE age > ?", [20]).should == 2
     end
   end
+
+  describe "#transaction" do
+    it "commits the transaction if no error is raised" do
+      @db.transaction do
+        @db.execute("CREATE TABLE test (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT)")
+      end
+
+      @db.execute_scalar("SELECT COUNT(*) FROM sqlite_master WHERE name = 'test'").should == 1
+    end
+
+    it "returns the value of the block" do
+      @db.transaction do
+        @db.execute("CREATE TABLE test (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT)")
+
+        42
+      end.should == 42
+    end
+
+    it "aborts the transaction if an error is raised" do
+      begin
+        @db.transaction do
+          @db.execute("CREATE TABLE test (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT)")
+          @db.execute("INSERT INTO test (name) VALUES (?)", ["brad"])
+
+          raise ArgumentError
+        end
+
+      rescue ArgumentError
+      end
+
+      @db.execute_scalar("SELECT COUNT(*) FROM sqlite_master WHERE name = 'test'").should == 0
+    end
+  end
 end

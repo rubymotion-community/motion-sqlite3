@@ -43,6 +43,21 @@ module SQLite3
       execute(*args).first.values.first
     end
 
+    def transaction(&block)
+      execute("BEGIN TRANSACTION")
+
+      begin
+        result = yield
+      rescue
+        execute("ROLLBACK TRANSACTION")
+        raise
+      end
+
+      execute("COMMIT TRANSACTION")
+
+      result
+    end
+
     private
 
     def prepare(sql, params, &block)
