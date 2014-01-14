@@ -38,6 +38,9 @@ module SQLite3
         params.each { |name, value| bind_parameter(name, value) }
       when Array
         params.each_with_index { |value, i| bind_parameter(i+1, value) }
+      when NilClass
+      else
+        raise ArgumentError, "params must be either a Hash or an Array"
       end
     end
 
