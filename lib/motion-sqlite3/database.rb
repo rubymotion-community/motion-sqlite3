@@ -2,6 +2,7 @@ module SQLite3
   class Database
     def initialize(filename)
       @handle = Pointer.new(::Sqlite3.type)
+      @logging = false
 
       result = sqlite3_open(filename, @handle)
       raise SQLite3Error, sqlite3_errmsg(@handle.value) if result != SQLITE_OK
@@ -10,8 +11,10 @@ module SQLite3
     def execute(sql, params = nil, &block)
       raise ArgumentError if sql.nil?
 
-      #puts "*** #{sql}"
-      #puts "    #{params.inspect}" if params
+      if @logging
+        puts "   SQL: #{sql}"
+        puts "Params: #{params}" if params && ! params.empty?
+      end
 
       prepare(sql, params) do |statement|
         results = statement.execute
@@ -32,16 +35,11 @@ module SQLite3
       end
     end
 
-    def execute_debug(*args, &block)
-      puts "*** #{args[0]}"
-      puts "    #{args[1].inspect}" if args[1]
-
-      execute(*args, &block)
-    end
-
     def execute_scalar(*args)
       execute(*args).first.values.first
     end
+
+    attr_accessor :logging
 
     def transaction(&block)
       execute("BEGIN TRANSACTION")
