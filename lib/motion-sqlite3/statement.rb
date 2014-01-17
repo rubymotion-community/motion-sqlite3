@@ -50,7 +50,7 @@ module SQLite3
       case value
       when NilClass
         result = sqlite3_bind_null(@handle.value, index)
-      when String
+      when String, Symbol
         result = sqlite3_bind_text(@handle.value, index, value, -1, lambda { |arg| })
       when Integer
         result = sqlite3_bind_int(@handle.value, index, value)
