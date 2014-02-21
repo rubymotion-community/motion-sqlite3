@@ -15,41 +15,29 @@ module SQLite3
 
     private
 
-    def columns
-      columns = {}
-
-      count = sqlite3_column_count(@handle.value)
-      0.upto(count-1) do |i|
-        name = sqlite3_column_name(@handle.value, i).to_sym
-        type = sqlite3_column_type(@handle.value, i)
-
-        columns[name] = ColumnMetadata.new(i, type)
-      end
-
-      columns
-    end
-
     def current_row
       row = {}
 
-      columns.each do |name, metadata|
-        case metadata.type
+      column_count = sqlite3_column_count(@handle.value)
+      0.upto(column_count - 1) do |i|
+        name = sqlite3_column_name(@handle.value, i).to_sym
+        type = sqlite3_column_type(@handle.value, i)
+
+        case type
         when SQLITE_NULL
           row[name] = nil
         when SQLITE_TEXT
-          row[name] = sqlite3_column_text(@handle.value, metadata.index)
+          row[name] = sqlite3_column_text(@handle.value, i)
         when SQLITE_BLOB
-          row[name] = NSData.dataWithBytes(sqlite3_column_blob(@handle.value, metadata.index), length: sqlite3_column_bytes(@handle.value, metadata.index))
+          row[name] = NSData.dataWithBytes(sqlite3_column_blob(@handle.value, i), length: sqlite3_column_bytes(@handle.value, i))
         when SQLITE_INTEGER
-          row[name] = sqlite3_column_int(@handle.value, metadata.index)
+          row[name] = sqlite3_column_int(@handle.value, i)
         when SQLITE_FLOAT
-          row[name] = sqlite3_column_double(@handle.value, metadata.index)
+          row[name] = sqlite3_column_double(@handle.value, i)
         end
       end
 
       row
     end
   end
-
-  class ColumnMetadata < Struct.new(:index, :type); end
 end
