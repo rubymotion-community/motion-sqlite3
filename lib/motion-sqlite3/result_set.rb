@@ -16,19 +16,17 @@ module SQLite3
     private
 
     def columns
-      @result_columns ||= begin
-        columns = {}
+      columns = {}
 
-        count = sqlite3_column_count(@handle.value)
-        0.upto(count-1) do |i|
-          name = sqlite3_column_name(@handle.value, i).to_sym
-          type = sqlite3_column_type(@handle.value, i)
+      count = sqlite3_column_count(@handle.value)
+      0.upto(count-1) do |i|
+        name = sqlite3_column_name(@handle.value, i).to_sym
+        type = sqlite3_column_type(@handle.value, i)
 
-          columns[name] = ColumnMetadata.new(i, type)
-        end
-
-        columns
+        columns[name] = ColumnMetadata.new(i, type)
       end
+
+      columns
     end
 
     def current_row

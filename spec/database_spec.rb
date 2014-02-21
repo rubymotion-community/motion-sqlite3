@@ -24,7 +24,7 @@ describe SQLite3::Database do
       @db.execute("INSERT INTO test VALUES(:name, :address)", { name: "matt", address: "123 main st" })
 
       @db.execute_scalar("SELECT changes()").should == 1
-    end    
+    end
 
     it "returns rows if no block is provided" do
       @db.execute("CREATE TABLE test (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, age INTEGER)")
@@ -51,6 +51,19 @@ describe SQLite3::Database do
         { id: 1, name: "brad", age: 28 },
         { id: 2, name: "sparky", age: 24 }
       ]
+    end
+
+    it "handles results where the first row has a nil column correctly" do
+      @db.execute 'create virtual table fts_1 using fts4 (col_1, col_2)'
+      @db.execute "insert into fts_1 (col_1) values ('hello')"
+      @db.execute "insert into fts_1 (col_2) values ('hello')"
+
+      rows = @db.execute("select col_1, col_2 from fts_1 where fts_1 match 'hello' order by rowid")
+      rows.size.should == 2
+      one, two = rows
+
+      one.should == { col_1: 'hello', col_2: nil }
+      two.should == { col_1: nil, col_2: 'hello' }
     end
   end
 
