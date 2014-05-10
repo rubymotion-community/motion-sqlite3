@@ -1,2 +1,2 @@
-install: bundle install
 language: objective-c
+script: bundle exec rake spec
