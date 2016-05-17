@@ -53,7 +53,7 @@ module SQLite3
       when String, Symbol
         result = sqlite3_bind_text(@handle.value, index, value, -1, lambda { |arg| })
       when Integer
-        result = sqlite3_bind_int(@handle.value, index, value)
+        result = sqlite3_bind_int64(@handle.value, index, value)
       when Float
         result = sqlite3_bind_double(@handle.value, index, value)
       when NSData

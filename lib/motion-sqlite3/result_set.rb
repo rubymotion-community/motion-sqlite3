@@ -31,7 +31,7 @@ module SQLite3
         when SQLITE_BLOB
           row[name] = NSData.dataWithBytes(sqlite3_column_blob(@handle.value, i), length: sqlite3_column_bytes(@handle.value, i))
         when SQLITE_INTEGER
-          row[name] = sqlite3_column_int(@handle.value, i)
+          row[name] = sqlite3_column_int64(@handle.value, i)
         when SQLITE_FLOAT
           row[name] = sqlite3_column_double(@handle.value, i)
         end
