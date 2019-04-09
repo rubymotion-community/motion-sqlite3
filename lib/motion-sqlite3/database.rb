@@ -22,13 +22,13 @@ module SQLite3
         if block_given?
           results.each do |result|
             yield result
-          end
+          end.weak!
         else
           rows = []
 
           results.each do |result|
             rows << result
-          end
+          end.weak!
 
           rows
         end

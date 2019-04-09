@@ -51,13 +51,13 @@ module SQLite3
       when NilClass
         result = sqlite3_bind_null(@handle.value, index)
       when String, Symbol
-        result = sqlite3_bind_text(@handle.value, index, value, -1, lambda { |arg| })
+        result = sqlite3_bind_text(@handle.value, index, value, -1, lambda { |arg| }.weak! )
       when Integer
         result = sqlite3_bind_int64(@handle.value, index, value)
       when Float
         result = sqlite3_bind_double(@handle.value, index, value)
       when NSData
-        result = sqlite3_bind_blob(@handle.value, index, value.bytes, value.length, lambda { |arg| })
+        result = sqlite3_bind_blob(@handle.value, index, value.bytes, value.length, lambda { |arg| }.weak!)
       else
         raise SQLite3Error, "unable to bind #{value} to #{name}: unexpected type #{value.class}"
       end
