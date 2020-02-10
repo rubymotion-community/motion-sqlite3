@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 $:.unshift("/Library/RubyMotion/lib")
+$:.unshift("~/.rubymotion/rubymotion-templates")
 require 'motion/project/template/ios'
 
 require "bundler/gem_tasks"
@@ -9,13 +10,7 @@ Bundler.require :default
 Motion::Project::App.setup do |app|
   app.name = 'motion-sqlite3'
 
-  base_dir = File.dirname(__FILE__)
-  app.files += Dir.glob(File.join(base_dir, "lib/motion-sqlite3/**/*.rb"))
-
   if ENV["DEFAULT_PROVISIONING_PROFILE"]
     app.provisioning_profile = ENV["DEFAULT_PROVISIONING_PROFILE"]
   end
-
-  app.libs << "/usr/lib/libsqlite3.dylib"
-  app.include 'sqlite3.h'
 end
