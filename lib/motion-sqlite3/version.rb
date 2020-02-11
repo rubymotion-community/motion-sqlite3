@@ -1,3 +1,3 @@
 module SQLite3
-  VERSION = "0.5.3"
+  VERSION = "1.0.0"
 end

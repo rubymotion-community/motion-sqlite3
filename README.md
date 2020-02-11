@@ -52,7 +52,3 @@ Usage
 * Use `execute` to run SQL statements. All SQL statements are first prepared, and parameters can be passed as an Array or a Hash. If a Hash is passed, then the SQLite named parameter syntax is assumed to be in use.
 * Use `execute_debug` to see the SQL statement and paramaters passed in the REPL. You should not use this method in production.
 * Use `execute_scalar` to run SQL statements and return the first column of the first row. This is useful for queries like `SELECT COUNT(*) FROM posts`.
-
-Status
-----------
-Still in early stages. I'm hacking on it.
