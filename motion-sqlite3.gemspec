@@ -7,7 +7,7 @@ Gem::Specification.new do |gem|
   gem.description   = "A minimal wrapper over the SQLite 3 C API for RubyMotion"
   gem.summary       = "A minimal wrapper over the SQLite 3 C API for RubyMotion"
   gem.license       = "MIT"
-  gem.homepage      = "http://github.com/mattgreen/motion-sqlite3"
+  gem.homepage      = "http://github.com/rubymotion-community/motion-sqlite3"
 
   gem.files         = `git ls-files`.split($\)
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
