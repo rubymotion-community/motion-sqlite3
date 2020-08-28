@@ -5,7 +5,7 @@ module SQLite3
       @logging = false
 
       result = sqlite3_open(filename, @handle)
-      raise SQLite3Error, sqlite3_errmsg(@handle.value) if result != SQLITE_OK
+      raise SQLite3Error, sqlite3_errmsg(@handle.value_with_autorelease) if result != SQLITE_OK
     end
 
     def execute(sql, params = nil, &block)
