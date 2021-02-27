@@ -10,6 +10,6 @@ Motion::Project::App.setup do |app|
     app.files.unshift(file)
   end
 
-  app.libs << "/usr/lib/libsqlite3.dylib"
+  app.libs << '-lsqlite3'
   app.include "sqlite3.h"
 end
