@@ -1,5 +1,7 @@
 module SQLite3
   class Database
+    attr_accessor :logging
+
     def initialize(filename)
       @handle = Pointer.new(::Sqlite3.type)
       @logging = false
@@ -38,8 +40,6 @@ module SQLite3
     def execute_scalar(*args)
       execute(*args).first.values.first
     end
-
-    attr_accessor :logging
 
     def transaction(&block)
       execute("BEGIN TRANSACTION")
