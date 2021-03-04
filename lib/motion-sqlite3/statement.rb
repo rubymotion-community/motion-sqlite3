@@ -20,13 +20,13 @@ module SQLite3
     end
 
     def finalize
-      sqlite3_finalize(@handle.value)
+      sqlite3_finalize(@handle.value_with_autorelease)
     end
 
     def step
-      @result = sqlite3_step(@handle.value)
+      @result = sqlite3_step(@handle.value_with_autorelease)
       unless @result == SQLITE_DONE || @result == SQLITE_ROW
-        raise SQLite3Error, sqlite3_errmsg(@db.value)
+        raise SQLite3Error, sqlite3_errmsg(@db.value_with_autorelease)
       end
     end
 
@@ -49,20 +49,20 @@ module SQLite3
 
       case value
       when NilClass
-        result = sqlite3_bind_null(@handle.value, index)
+        result = sqlite3_bind_null(@handle.value_with_autorelease, index)
       when String, Symbol
-        result = sqlite3_bind_text(@handle.value, index, value, -1, lambda { |arg| })
+        result = sqlite3_bind_text(@handle.value_with_autorelease, index, value, -1, lambda { |arg| })
       when Integer
-        result = sqlite3_bind_int64(@handle.value, index, value)
+        result = sqlite3_bind_int64(@handle.value_with_autorelease, index, value)
       when Float
-        result = sqlite3_bind_double(@handle.value, index, value)
-      when NSData
-        result = sqlite3_bind_blob(@handle.value, index, value.bytes, value.length, lambda { |arg| })
+        result = sqlite3_bind_double(@handle.value_with_autorelease, index, value)
+      when NSDatavalue
+        result = sqlite3_bind_blob(@handle.value_with_autorelease, index, value.bytes, value.length, lambda { |arg| })
       else
         raise SQLite3Error, "unable to bind #{value} to #{name}: unexpected type #{value.class}"
       end
 
-      raise SQLite3Error, sqlite3_errmsg(@db.value) if result != SQLITE_OK
+      raise SQLite3Error, sqlite3_errmsg(@db.value_with_autorelease) if result != SQLITE_OK
     end
 
     def column_index(name)
@@ -70,7 +70,7 @@ module SQLite3
 
       case name
       when String, Symbol
-        index = sqlite3_bind_parameter_index(@handle.value, ":#{name}")
+        index = sqlite3_bind_parameter_index(@handle.value_with_autorelease, ":#{name}")
         raise SQLite3Error, "couldn't find index for #{name}!" if index == 0
 
       when Integer
@@ -82,8 +82,8 @@ module SQLite3
 
     def prepare(sql)
       remainder = Pointer.new(:string)
-      result = sqlite3_prepare_v2(@db.value, sql, -1, @handle, remainder)
-      raise SQLite3Error, sqlite3_errmsg(@db.value) if result != SQLITE_OK
+      result = sqlite3_prepare_v2(@db.value_with_autorelease, sql, -1, @handle, remainder)
+      raise SQLite3Error, sqlite3_errmsg(@db.value_with_autorelease) if result != SQLITE_OK
     end
   end
 end
